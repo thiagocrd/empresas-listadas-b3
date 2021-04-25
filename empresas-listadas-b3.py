@@ -4,7 +4,7 @@ import pandas as pd
 # O arquivo .csv não vem formatado em utf-8, então usamos o encoding = 'latin'
 # Definimos o dtype da coluna CorpGovnLvlNm como string para não termos problema com a memória
 df = pd.read_csv(
-    'InstrumentsConsolidatedFile_20201229_1.csv',
+    'InstrumentsConsolidatedFile_20210317_1.csv',
     usecols= ['RptDt','TckrSymb', 'SgmtNm', 'SctyCtgyNm', 'TradgStartDt', 'CorpGovnLvlNm'],
     sep=';',
     encoding = 'latin',
@@ -18,5 +18,9 @@ df = df[ ( (df['SctyCtgyNm'] == 'SHARES') | (df['SctyCtgyNm'] == 'UNIT') ) & (df
 
 df_listed_stocks = pd.DataFrame()
 df_listed_stocks['Ticker'] = df['TckrSymb']
+df_listed_stocks = df_listed_stocks['Ticker'].reset_index()
+df_listed_stocks = df_listed_stocks.drop(columns=['index'])
+
+df_listed_stocks.to_csv('b3_stocks.csv', index=False)
 
 print(df_listed_stocks['Ticker'])
